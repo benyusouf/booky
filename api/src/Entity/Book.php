@@ -192,10 +192,13 @@ class Book
     #[Groups(groups: ['Book:read', 'Book:read:admin', 'Bookmark:read'])]
     public ?int $rating = null;
 
-    // src/Entity/Book.php
 
     #[ORM\Column(type: Types::BOOLEAN, options: ["default" => false])]
     public bool $isPromoted = false;
+
+    #[ORM\Column(type: Types::STRING, length: 10, options: ["default" => 'None'])]
+    public string $promotionStatus = 'None';
+
 
 
     public function __construct()
