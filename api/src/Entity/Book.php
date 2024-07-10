@@ -196,11 +196,26 @@ class Book
     #[ORM\Column(type: Types::BOOLEAN, options: ["default" => false])]
     public bool $isPromoted = false;
 
+    #[ApiProperty(
+        types: ['https://schema.org/promotionStatus'],
+        example: 'Basic'
+    )]
     #[ORM\Column(type: Types::STRING, length: 10, options: ["default" => 'None'])]
+    #[Assert\NotBlank]
+    #[Assert\Choice(choices: ['None', 'Basic', 'Pro'], message: 'Choose a valid promotion status.')]
+    #[Groups(groups: ['Book:write', 'Book:read:admin'])]
     public string $promotionStatus = 'None';
-
-    #[ORM\Column(type: Types::STRING, unique: true)]
-    public ?string $slug = null;
+    
+    #[ApiProperty(
+        types: ['https://schema.org/slug'],
+        example: 'Book-6acacc80-8321-4d83-9b02-7f2c7bf6eb1d'
+    )]
+    #[ORM\Column(type: Types::STRING, unique: true, nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 5)]
+    #[Assert\Regex(pattern: '/^[a-z0-9-]+$/', message: 'Slug must contain only lowercase letters, numbers, or hyphens at least 5 characters.')]
+    #[Groups(groups: ['Book:read', 'Book:write'])]
+    public string $slug;
 
 
 
