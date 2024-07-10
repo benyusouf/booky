@@ -199,6 +199,9 @@ class Book
     #[ORM\Column(type: Types::STRING, length: 10, options: ["default" => 'None'])]
     public string $promotionStatus = 'None';
 
+    #[ORM\Column(type: Types::STRING, unique: true)]
+    public ?string $slug = null;
+
 
 
     public function __construct()
